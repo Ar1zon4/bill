@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="currency.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <section >
+        
+        <div class="exchange" >
+            <h1>Xe Currency Converter</h1> 
+            <p>Check live foreign currency exchange rates</p> 
+            <br>
+            <br>
+            <br>
+            <div class="run">
+                <br>
+                <li><a href=""><i class="fa-solid fa-spinner"></i>Convert</a></li>
+                <li><a href=""><i class="fa-regular fa-paper-plane"></i>Send</a></li>
+                <li><a href=""><i class="fa-solid fa-person-chalkboard"></i>Charts</a></li>
+                <li><a href=""><i class="fa-regular fa-bell"></i>Alerts</a></li>
+
+                <div class="floor">
+                  <p class="oo">Amount:</p>  
+                    <input type="text" class="ja" id="amount"><br><br>
+                    <p ></p>
+                   
+                  <p class="uu">From:</p>  
+                  <select name="from" id="from">
+                    
+                  </select>
+                  <!-- <button class="button" >Convert</button> -->
+
+                   <i class="fa-solid fa-arrows-spin pass" onclick="convert()" id="convert"></i>
+                   <p class="pp">To:</p> 
+                   <select name="to" id="to">
+                    
+                  </select>
+                    <!-- <input type="text" class="up" id="to"> -->
+
+                    <option value=""></option>
+
+                    <p class="uu">Results:</p> 
+                    <input type="text" id="output"  >
+
+                    
+                   
+
+                </div>
+                <p></p>
+                <p></p>
+
+                <div style="width: 40%; background-color: rgb(173, 165, 165); height: auto; margin: 0 auto; padding-top: 140px;">
+                   
+                    <p id="demo" style="color: rgb(146, 95, 95);"></p>
+                    
+                </div>
+
+                
+
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let amount = document.querySelector("#amount")
+        let from = document.querySelector("#from")
+        let to = document.querySelector('#to')
+        let output= document.querySelector("#output")
+
+
+        let value= "";   
+
+
+        // document.onload = funtion(e) {
+
+        // }
+
+
+         fetch('https://v6.exchangerate-api.com/v6/6bc71b9c2f33c8fdab9ed6d7/latest/USD')
+         .then(function(results) {
+           return results.json()
+         }).then(data => {
+           
+
+            let check = data.conversion_rates
+            // console.log(data)
+            // console.log(data.conversion_rates)
+
+            for (let key in data.conversion_rates) {
+                value += `<option value=${key}>${key}`
+            }
+
+            // console.log(value)
+            from.innerHTML = value
+            to.innerHTML= value
+
+
+            
+
+            
+            })
+
+            async function convert(){
+                
+            let results = await fetch(`https://v6.exchangerate-api.com/v6/cc02bc7972a0c8b71e9ac68b/pair/${from.value}/${to.value}`);
+            let data = await results.json();
+            output.value = amount.value * data.conversion_rate;
+        
+            // console.log(data)
+            amount.innerHTML=value
+         }
+        
+         setInterval(()=>{
+    let todate= new Date();
+    let hours = todate.getHours();
+    let minutes = todate.getMinutes(); 
+    let seconds= todate.getSeconds()
+    document.getElementById('demo').innerHTML=`${hours}: ${minutes} : ${seconds}`;
+
+
+}, 1000)
+    
+       
+        
+    
+        
+    
+
+                // fetch(`https://v6.exchangerate-api.com/v6/YOUR-API-KEY/pair/${from.value}/${to.value}/AMOUNT`)
+                // .then(function(results){
+                //     return results.json()
+                // }).then(data =>{
+                //     output.value = amount.value * data.conversion_rates;
+                //     console.log(output.value)
+                // })
+
+            
+
+             
+        
+    </script>
+</body>
+</html>
